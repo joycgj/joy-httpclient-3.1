@@ -1,5 +1,9 @@
 package org.apache.commons.httpclient.protocol;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A class to encapsulate the specifics of a protocol. This class class also
  * provides the ability t customize the set and characteristics of the
@@ -14,5 +18,6 @@ package org.apache.commons.httpclient.protocol;
  * </pre>
  */
 public class Protocol {
-
+     /** The available protocols */
+    private static final Map PROTOCOLS = Collections.synchronizedMap(new HashMap());
 }
