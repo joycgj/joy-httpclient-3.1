@@ -1,0 +1,225 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.joy</groupId>
+		<artifactId>joy-httpclient-3.1</artifactId>
+		<version>1.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.joy</groupId>
+	<artifactId>httpclient</artifactId>
+	<packaging>war</packaging>
+	<name>httpclient</name>
+	<url>http://maven.apache.org</url>
+	<version>1.0-SNAPSHOT</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>3.0.0.RELEASE</spring.version>
+		<jar.prefix></jar.prefix>
+	</properties>
+
+	<dependencies>
+
+	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>*.*</include>
+					<include>ibatis/*.*</include>
+					<include>ibatis/open/*.*</include>
+				</includes>
+			</resource>
+            <resource>
+                <directory>${basedir}/src/main/resources/${package.environment}</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+            </resource>			
+		</resources>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>cms_online</id>
+			<properties>
+				<package.environment>online</package.environment>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<move file="${project.build.directory}/classes/config_online.properties" tofile="${project.build.directory}/classes/config.properties"/>
+										<move file="${project.build.directory}/classes/dbconnect_online.properties" tofile="${project.build.directory}/classes/dbconnect.properties"/>
+										<move file="${project.build.directory}/classes/memcached_online.properties" tofile="${project.build.directory}/classes/memcached.properties"/>
+										<move file="${project.build.directory}/classes/restli-client-config_online.properties" tofile="${project.build.directory}/classes/restli-client-config.properties"/>
+										<move file="${project.build.directory}/classes/restli-client-external-config_online.properties" tofile="${project.build.directory}/classes/restli-client-external-config.properties"/>
+										<delete file="${project.build.directory}/classes/applicationContext_timer.xml" />
+										<delete file="${project.build.directory}/classes/applicationContext_open.xml" />	
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>			
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>cms_develop</id>
+			<properties>
+				<package.environment>develop</package.environment>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<delete file="${project.build.directory}/classes/applicationContext_timer.xml" />
+										<delete file="${project.build.directory}/classes/applicationContext_open.xml" />	
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>			
+				</plugins>
+			</build>			
+		</profile>
+		<profile>
+			<id>timer_online</id>
+			<properties>
+				<package.environment>online</package.environment>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<move file="${project.build.directory}/classes/config_online.properties" tofile="${project.build.directory}/classes/config.properties"/>
+										<move file="${project.build.directory}/classes/config_open_online.properties" tofile="${project.build.directory}/classes/config_open.properties"/>
+										<move file="${project.build.directory}/classes/dbconnect_online.properties" tofile="${project.build.directory}/classes/dbconnect.properties"/>
+										<move file="${project.build.directory}/classes/memcached_online.properties" tofile="${project.build.directory}/classes/memcached.properties"/>
+										<move file="${project.build.directory}/classes/restli-client-config_online.properties" tofile="${project.build.directory}/classes/restli-client-config.properties"/>
+										<move file="${project.build.directory}/classes/restli-client-external-config_online.properties" tofile="${project.build.directory}/classes/restli-client-external-config.properties"/>										
+										<delete file="${project.build.directory}/classes/applicationContext.xml" />
+										<move file="${project.build.directory}/classes/applicationContext-timer.xml" tofile="${project.build.directory}/classes/applicationContext.xml"/>	
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>			
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>timer_develop</id>
+			<properties>
+				<package.environment>develop</package.environment>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<delete file="${project.build.directory}/classes/applicationContext.xml" />
+										<move file="${project.build.directory}/classes/applicationContext-timer.xml" tofile="${project.build.directory}/classes/applicationContext.xml"/>	
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>			
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>open_online</id>
+			<properties>
+				<package.environment>online</package.environment>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<move file="${project.build.directory}/classes/config_open_online.properties" tofile="${project.build.directory}/classes/config.properties"/>
+										<move file="${project.build.directory}/classes/dbconnect_online.properties" tofile="${project.build.directory}/classes/dbconnect.properties"/>
+										<move file="${project.build.directory}/classes/memcached_online.properties" tofile="${project.build.directory}/classes/memcached.properties"/>
+										<move file="${project.build.directory}/classes/restli-client-config_online.properties" tofile="${project.build.directory}/classes/restli-client-config.properties"/>
+										<move file="${project.build.directory}/classes/restli-client-external-config_online.properties" tofile="${project.build.directory}/classes/restli-client-external-config.properties"/>										
+										<delete file="${project.build.directory}/classes/applicationContext.xml" />
+										<move file="${project.build.directory}/classes/applicationContext-open.xml" tofile="${project.build.directory}/classes/applicationContext.xml"/>	
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>			
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>open_develop</id>
+			<properties>
+				<package.environment>develop</package.environment>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<delete file="${project.build.directory}/classes/applicationContext.xml" />
+										<move file="${project.build.directory}/classes/applicationContext-open.xml" tofile="${project.build.directory}/classes/applicationContext.xml"/>	
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>			
+				</plugins>
+			</build>
+		</profile>							
+	</profiles>
+</project>
