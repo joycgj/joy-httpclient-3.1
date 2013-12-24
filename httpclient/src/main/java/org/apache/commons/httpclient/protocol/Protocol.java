@@ -112,6 +112,15 @@ public class Protocol {
     /** True if this protocol is secure */
     private boolean secure;
 
+    /**
+     * Constructs a new Protocol. Whether the created protocol is secure depends on
+     * the class of <code>factory</code>
+     *
+     * @param scheme the scheme (e.g. http, https)
+     * @param factory the factory for creating sockets for communication using
+     * this protocol
+     * @param defaultPort the port this protocol defaults to
+     */
     public Protocol(String scheme, ProtocolSocketFactory factory, int defaultPort) {
 
         if (scheme == null) {
@@ -128,5 +137,109 @@ public class Protocol {
         this.socketFactory = factory;
         this.defaultPort = defaultPort;
         this.secure = (factory instanceof SecureProtocolSocketFactory);
+    }
+
+    /**
+     * Constructs a new Protocol. Whether the created protocol is secure depends on
+     * the class of <code>factory</code>
+     *
+     * @param scheme the scheme (e.g. http, https)
+     * @param factory the factory for creating sockets for communication using
+     * this protocol
+     * @param defaultPort the port this protocol defaults to
+     * @deprecated Use the constructor that uses ProtocolSocketFactory, this version of
+     * the constructor is only kept for backwards API compatibility.
+     */
+    public Protocol(String scheme, SecureProtocolSocketFactory factory, int defaultPort) {
+        this(scheme, (ProtocolSocketFactory)factory, defaultPort);
+    }
+
+    /**
+     * Returns the defaultPort
+     * @return int
+     */
+    public int getDefaultPort() {
+        return defaultPort;
+    }
+
+    /**
+     * Returns the socketFactory. If secure the factory is a
+     * SecureProtocolSocketFactory.
+     * @return SocketFactory
+     */
+    public ProtocolSocketFactory getSocketFactory() {
+        return socketFactory;
+    }
+
+    /**
+     * Returns the scheme
+     * @return The scheme
+     */
+    public String getScheme() {
+        return scheme;
+    }
+
+    /**
+     * Returns true if this protocol is secure
+     * @return true if this protocol is secure
+     */
+    public boolean isSecure() {
+        return secure;
+    }
+
+    /**
+     * Resolves the correct port for this protocol. Returns the given port if
+     * valid or the default port otherwise.
+     *
+     * @param port the port to be resolved
+     *
+     * @return the given port or the defaultPort
+     */
+    public int resolvePort(int port) {
+        return port <= 0 ? getDefaultPort() : port;
+    }
+
+    /**
+     * Returns a string representation of this object.
+     * @return a string representation of this object.
+     */
+    @Override
+    public String toString() {
+       return scheme + ":" + defaultPort;
+    }
+
+    /**
+     * Return true if the specified object equals this object.
+     * @param obj The object to compare against.
+     * @return true if the objects are equal.
+     */
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Protocol) {
+            Protocol p = (Protocol) obj;
+
+            return (
+                 defaultPort == p.getDefaultPort()
+                 && scheme.equalsIgnoreCase(p.getScheme())
+                 && secure == p.isSecure()
+                 && socketFactory.equals(p.getSocketFactory()));
+        } else {
+           return false;
+        }
+    }
+
+    /**
+     * Returns a hash code for this object.
+     * @return The hash code.
+     */
+    @Override
+    public int hashCode() {
+        int hash = LangUtils.HASH_SEED;
+        hash = LangUtils.hashCode(hash, this.defaultPort);
+        hash = LangUtils.hashCode(hash, this.scheme.toLowerCase());
+        hash = LangUtils.hashCode(hash, this.scheme);
+        hash = LangUtils.hashCode(hash, this.socketFactory);
+        return hash;
     }
 }
