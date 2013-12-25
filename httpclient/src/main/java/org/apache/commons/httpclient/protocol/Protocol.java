@@ -1,5 +1,7 @@
 package org.apache.commons.httpclient.protocol;
 
+import org.apache.commons.httpclient.util.LangUtils;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
