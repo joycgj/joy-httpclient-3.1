@@ -116,4 +116,78 @@ public interface HttpParams {
      * @see #setDoubleParameter(String, double)
      */
     public double getDoubleParameter(final String name, double defaultValue);
+
+    /**
+     * Assigns a {@link Double} to the parameter with the given name
+     *
+     * @param name parameter name
+     * @param value parameter value
+     */
+    public void setDoubleParameter(final String name, double value);
+
+    /**
+     * Returns a {@link Boolean} parameter value with the given name.
+     * If the parameter is not explicitly defined in this collection, its
+     * value will be drawn from a higher level collection at which this parameter
+     * is defined. If the parameter is not explicitly set anywhere up the hierarchy,
+     * the default value is returned.
+     *
+     * @param name the parent name.
+     * @param defaultValue the default value.
+     *
+     * @return a {@link Boolean} that represents the value of the parameter.
+     *
+     * @see #setBooleanParameter(String, boolean)
+     */
+    public boolean getBooleanParameter(final String name, boolean defaultValue);
+
+    /**
+     * Assigns a {@link Boolean} to the parameter with the given name
+     *
+     * @param name parameter name
+     * @param value parameter value
+     */
+    public void setBooleanParameter(final String name, boolean value);
+
+    /**
+     * Returns <tt>true</tt> if the parameter is set at any level, <tt>false</tt> otherwise.
+     *
+     * @param name parameter name
+     *
+     * @return <tt>true</tt> if the parameter is set at any level, <tt>false</tt>
+     * otherwise.
+     */
+    public boolean isParameterSet(final String name);
+
+    /**
+     * Returns <tt>true</tt> if the parameter is set locally, <tt>false</tt> otherwise.
+     *
+     * @param name parameter name
+     *
+     * @return <tt>true</tt> if the parameter is set locally, <tt>false</tt>
+     * otherwise.
+     */
+    public boolean isParameterSetLocally(final String name);
+
+    /**
+     * Returns <tt>true</tt> if the parameter is set and is <tt>true</tt>, <tt>false</tt>
+     * otherwise.
+     *
+     * @param name parameter name
+     *
+     * @return <tt>true</tt> if the parameter is set and is <tt>true</tt>, <tt>false</tt>
+     * otherwise.
+     */
+    public boolean isParameterTrue(final String name);
+
+    /**
+     * Returns <tt>true</tt> if the parameter is either not set or is <tt>false</tt>,
+     * <tt>false</tt> otherwise.
+     *
+     * @param name parameter name
+     *
+     * @return <tt>true</tt> if the parameter is either not set or is <tt>false</tt>,
+     * <tt>false</tt> otherwise.
+     */
+    public boolean isParameterFalse(final String name);
 }
