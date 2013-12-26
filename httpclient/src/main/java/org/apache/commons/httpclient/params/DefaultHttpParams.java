@@ -180,31 +180,54 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
         if (param == null) {
             return defaultValue;
         }
-
+        return ((Boolean)param).booleanValue();
     }
 
     @Override
     public void setBooleanParameter(String name, boolean value) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        setParameter(name, value ? Boolean.TRUE : Boolean.FALSE);// Boolean.valueOf() = Java 1.4+
     }
 
     @Override
     public boolean isParameterSet(String name) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return getParameter(name) != null;
     }
 
     @Override
     public boolean isParameterSetLocally(String name) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.parameters != null && this.parameters.get(name) != null;
     }
 
     @Override
     public boolean isParameterTrue(String name) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return getBooleanParameter(name, false);
     }
 
     @Override
     public boolean isParameterFalse(String name) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return !getBooleanParameter(name, false);
+    }
+
+    /**
+     * Removes all parameters from this collection.
+     */
+    public void clear() {
+        this.parameters = null;
+    }
+
+    /**
+     * Clones this collection of parameters. Please note that parameter values
+     * themselves are not cloned.
+     *
+     * @see java.io.Serializable
+     * @see java.lang.Object#clone()
+     */
+    public Object clone() throws CloneNotSupportedException {
+        DefaultHttpParams clone = (DefaultHttpParams) super.clone();
+        if (this.parameters != null) {
+            clone.parameters = (HashMap) this.parameters.clone();
+        }
+        clone.setDefaults(this.defaults);
+        return clone;
     }
 }
