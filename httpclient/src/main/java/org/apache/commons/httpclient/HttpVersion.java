@@ -86,5 +86,128 @@ public class HttpVersion implements Comparable {
         return minor;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return this.major * 100000 + this.minor;
+    }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof HttpVersion)) {
+            return false;
+        }
+        return equals((HttpVersion)obj);
+    }
+
+    /**
+     * Compares this HTTP protocol version with another one.
+     *
+     * @param anotherVer the version to be compared with.
+     *
+     * @return a negative integer, zero, or a positive integer as this version is less than,
+     *    equal to, or greater than the specified version.
+     */
+    public int compareTo(HttpVersion anotherVer) {
+        if (anotherVer == null) {
+            throw new IllegalArgumentException("Version parameter may not be null");
+        }
+        int delta = getMajor() - anotherVer.getMajor();
+        if (delta == 0) {
+            delta = getMinor() - anotherVer.getMinor();
+        }
+        return delta;
+    }
+
+    /**
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    public int compareTo(Object o) {
+        return compareTo((HttpVersion)o);
+    }
+
+    /**
+     * Test if the HTTP protocol version is equal to the given number.
+     *
+     * @return <tt>true</tt> if HTTP protocol version is given to the given number,
+     *         <tt>false</tt> otherwise.
+     */
+    public boolean equals(HttpVersion version) {
+        return compareTo(version) == 0;
+    }
+
+    /**
+     * Test if the HTTP protocol version is greater or equal to the given number.
+     *
+     * @return <tt>true</tt> if HTTP protocol version is greater or equal given to the
+     *         given number, <tt>false</tt> otherwise.
+     */
+    public boolean greaterEquals(HttpVersion version) {
+        return compareTo(version) >= 0;
+    }
+
+    /**
+     * Test if the HTTP protocol version is less or equal to the given number.
+     *
+     * @return <tt>true</tt> if HTTP protocol version is less or equal to given to the
+     *         given number, <tt>false</tt> otherwise.
+     */
+    public boolean lessEquals(HttpVersion version) {
+        return compareTo(version) <= 0;
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("HTTP/");
+        buffer.append(this.major);
+        buffer.append('.');
+        buffer.append(this.minor);
+        return buffer.toString();
+    }
+
+    /**
+     * Parses the textual representation of the given HTTP protocol version.
+     *
+     * @return HTTP protocol version.
+     *
+     * @throws ProtocolException if the string is not a valid HTTP protocol version.
+     */
+    public static HttpVersion parse(final String s) throws ProtocolException {
+        if (s == null) {
+            throw new IllegalArgumentException("String may not be null");
+        }
+        if (!s.startsWith("HTTP/")) {
+            throw new ProtocolException("Invalid HTTP version string: " + s);
+        }
+        int major, minor;
+
+        int i1 = "HTTP/".length();
+        int i2 = s.indexOf(".", i1);
+        if (i2 == -1) {
+            throw new ProtocolException("Invalid HTTP version number: " + s);
+        }
+        try {
+            major = Integer.parseInt(s.substring(i1, i2));
+        } catch (NumberFormatException e) {
+            throw new ProtocolException("Invalid HTTP major version number: " + s);
+        }
+        i1 = i2 + 1;
+        i2 = s.length();
+        try {
+            minor = Integer.parseInt(s.substring(i1, i2));
+        } catch (NumberFormatException e) {
+            throw new ProtocolException("Invalid HTTP minor version number: " + s);
+        }
+        return new HttpVersion(major, minor);
+    }
 }
