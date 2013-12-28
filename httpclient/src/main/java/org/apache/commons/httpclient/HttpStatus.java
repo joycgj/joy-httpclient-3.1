@@ -1,11 +1,52 @@
+/*
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//httpclient/src/java/org/apache/commons/httpclient/HttpStatus.java,v 1.18 2004/05/02 11:21:13 olegk Exp $
+ * $Revision: 480424 $
+ * $Date: 2006-11-29 06:56:49 +0100 (Wed, 29 Nov 2006) $
+ *
+ * ====================================================================
+ *
+ *  Licensed to the Apache Software Foundation (ASF) under one or more
+ *  contributor license agreements.  See the NOTICE file distributed with
+ *  this work for additional information regarding copyright ownership.
+ *  The ASF licenses this file to You under the Apache License, Version 2.0
+ *  (the "License"); you may not use this file except in compliance with
+ *  the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Apache Software Foundation.  For more
+ * information on the Apache Software Foundation, please see
+ * <http://www.apache.org/>.
+ *
+ */
+
 package org.apache.commons.httpclient;
 
 /**
  * Constants enumerating the HTTP status codes.
  * All status codes defined in RFC1945 (HTTP/1.0, RFC2616 (HTTP/1.1), and
  * RFC2518 (WebDAV) are supported.
+ *
+ * @see StatusLine
+ * @author Unascribed
+ * @author <a href="mailto:mbowler@GargoyleSoftware.com">Mike Bowler</a>
+ * @author <a href="mailto:jsdever@apache.org">Jeff Dever</a>
+ *
+ * TODO: Internationalization of reason phrases
+ *
+ * @version $Id: HttpStatus.java 480424 2006-11-29 05:56:49Z bayard $
  */
 public class HttpStatus {
+
+
     // -------------------------------------------------------- Class Variables
 
     /** Reason phrases lookup table. */
@@ -17,6 +58,9 @@ public class HttpStatus {
             new String[25],
             new String[8]
     };
+
+
+    // --------------------------------------------------------- Public Methods
 
     /**
      * Get the reason phrase for a particular status code.
@@ -39,10 +83,11 @@ public class HttpStatus {
         int codeIndex = statusCode - classIndex * 100;
         if (classIndex < 1 || classIndex > (REASON_PHRASES.length - 1)
             || codeIndex < 0 || codeIndex > (REASON_PHRASES[classIndex].length - 1)) {
-
+            return null;
         }
         return REASON_PHRASES[classIndex][codeIndex];
     }
+
 
     // -------------------------------------------------------- Private Methods
 
@@ -55,6 +100,7 @@ public class HttpStatus {
         int classIndex = statusCode / 100;
         REASON_PHRASES[classIndex][statusCode - classIndex * 100] = reasonPhrase;
     }
+
 
     // -------------------------------------------------------------- Constants
 
@@ -261,4 +307,6 @@ public class HttpStatus {
         addStatusCodeMap(SC_INSUFFICIENT_STORAGE , "Insufficient Storage");
         addStatusCodeMap(SC_FAILED_DEPENDENCY, "Failed Dependency");
     }
-}
+
+
+} // finish
