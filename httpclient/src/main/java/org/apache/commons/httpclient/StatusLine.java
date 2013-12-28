@@ -72,9 +72,89 @@ public class StatusLine {
             }
             this.httpVersion = (statusLine.substring(start, at)).toUpperCase();
 
+            // advance through spaces
+            while (statusLine.charAt(at) == ' ') {
+                at++;
+            }
 
+            //handle the Status-Code
+            int to = statusLine.indexOf(" ", at);
+            if (to < 0) {
+                to = length;
+            }
+            try {
+                this.statusCode = Integer.parseInt(statusLine.substring(at, to));
+            } catch (NumberFormatException e) {
+                throw new ProtocolException(
+                        "Unable to parse status code from status line: '"
+                                + statusLine + "'");
+            }
+
+            //handle the Reason-Phrase
+            at = to + 1;
+            if (at < length) {
+                this.reasonPhrase = statusLine.substring(at).trim();
+            } else {
+                this.reasonPhrase = "";
+            }
         } catch (StringIndexOutOfBoundsException e) {
+            throw new HttpException("Status-Line '" + statusLine + "' is not valid");
+        }
+        //save the original Status-Line
+        this.statusLine = statusLine;
+    }
 
+    /**
+     * @return the HTTP-Version
+     */
+    public String getHttpVersion() {
+        return httpVersion;
+    }
+
+    /**
+     * @return the Status-Code
+     */
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    /**
+     * @return the Reason-Phrase
+     */
+    public String getReasonPhrase() {
+        return reasonPhrase;
+    }
+
+    /**
+     * Return a string representation of this object.
+     * @return a string represenation of this object.
+     */
+    public final String toString() {
+        return statusLine;
+    }
+
+    /**
+     * Tests if the string starts with 'HTTP' signature.
+     * @param s string to test
+     * @return <tt>true</tt> if the line starts with 'HTTP'
+     *   signature, <tt>false</tt> otherwise.
+     */
+    public static boolean startsWithHTTP(final String s) {
+        try {
+            int at = 0;
+            while (Character.isWhitespace(s.charAt(at))) {
+                ++at;
+            }
+            return ("HTTP".equals(s.substring(at, at + 4)));
+        } catch (StringIndexOutOfBoundsException e) {
+            return false;
         }
     }
+
+    /**
+     * 1.Character.isWhitespace()认为全角和半角空格都为空格，即返回true
+     * 2.Character.isSpaceChar()认为全角和半角空格都为空格，即返回true
+     * 3.Character.isSpace()只认为半角空格为空格，即半角空格返回true,全角空格返回false,但是此方法不被赞成使用。
+     * 4.trim()时，只能截取掉半角的空格，而不能将全角的空格给去掉。
+     */
 }
