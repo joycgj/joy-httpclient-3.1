@@ -68,7 +68,7 @@ package org.apache.commons.httpclient;
  *
  * @since 3.0
  */
-public class HttpVersion implements Comparable {
+public class HttpVersion implements Comparable {  // finish @2014/1/2
 
     /** Major version number of the HTTP protocol */
     private int major = 0;
@@ -147,8 +147,8 @@ public class HttpVersion implements Comparable {
      *
      * @param anotherVer the version to be compared with.
      *
-     * @return a negative integer, zero, or a positive integer as this version is less than,
-     *    equal to, or greater than the specified version.
+     * @return a negative integer, zero, or a positive integer as this version is less than, 
+     *    equal to, or greater than the specified version.     
      */
     public int compareTo(HttpVersion anotherVer) {
         if (anotherVer == null) {
@@ -164,7 +164,6 @@ public class HttpVersion implements Comparable {
     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    @Override
     public int compareTo(Object o) {
         return compareTo((HttpVersion)o);
     }
@@ -172,7 +171,7 @@ public class HttpVersion implements Comparable {
     /**
      * Test if the HTTP protocol version is equal to the given number.
      *
-     * @return <tt>true</tt> if HTTP protocol version is given to the given number,
+     * @return <tt>true</tt> if HTTP protocol version is given to the given number, 
      *         <tt>false</tt> otherwise.
      */
     public boolean equals(HttpVersion version) {
@@ -182,7 +181,7 @@ public class HttpVersion implements Comparable {
     /**
      * Test if the HTTP protocol version is greater or equal to the given number.
      *
-     * @return <tt>true</tt> if HTTP protocol version is greater or equal given to the
+     * @return <tt>true</tt> if HTTP protocol version is greater or equal given to the 
      *         given number, <tt>false</tt> otherwise.
      */
     public boolean greaterEquals(HttpVersion version) {
@@ -192,7 +191,7 @@ public class HttpVersion implements Comparable {
     /**
      * Test if the HTTP protocol version is less or equal to the given number.
      *
-     * @return <tt>true</tt> if HTTP protocol version is less or equal to given to the
+     * @return <tt>true</tt> if HTTP protocol version is less or equal to given to the 
      *         given number, <tt>false</tt> otherwise.
      */
     public boolean lessEquals(HttpVersion version) {
@@ -216,7 +215,7 @@ public class HttpVersion implements Comparable {
      *
      * @return HTTP protocol version.
      *
-     * @throws ProtocolException if the string is not a valid HTTP protocol version.
+     * @throws ProtocolException if the string is not a valid HTTP protocol version. 
      */
     public static HttpVersion parse(final String s) throws ProtocolException {
         if (s == null) {
@@ -246,4 +245,5 @@ public class HttpVersion implements Comparable {
         }
         return new HttpVersion(major, minor);
     }
+
 }
