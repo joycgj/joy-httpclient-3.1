@@ -42,7 +42,7 @@ import java.lang.reflect.Method;
  *
  * @version $Revision: 480424 $ $Date: 2006-11-29 06:56:49 +0100 (Wed, 29 Nov 2006) $
  */
-public class HttpException extends IOException {
+public class HttpException extends IOException {  // finish @2014/1/2 18:43
 
     /**
      * Creates a new HttpException with a <tt>null</tt> detail message.

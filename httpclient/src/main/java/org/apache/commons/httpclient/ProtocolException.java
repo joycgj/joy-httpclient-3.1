@@ -38,7 +38,7 @@ package org.apache.commons.httpclient;
  *
  * @since 3.0
  */
-public class ProtocolException extends HttpException {
+public class ProtocolException extends HttpException {  // finish @2014/1/2 18:43
 
     /**
      * Creates a new ProtocolException with a <tt>null</tt> detail message.
