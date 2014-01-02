@@ -54,7 +54,7 @@ package org.apache.commons.httpclient;
  * @version $Id: StatusLine.java 480424 2006-11-29 05:56:49Z bayard $
  * @since 2.0
  */
-public class StatusLine {
+public class StatusLine { // finish @2014-01-02 16:57
 
     // ----------------------------------------------------- Instance Variables
 
@@ -90,19 +90,19 @@ public class StatusLine {
                 ++start;
             }
             if (!"HTTP".equals(statusLine.substring(at, at += 4))) {
-                throw new HTTPException("Status-Line '" + statusLine
-                    + "' does not start with HTTP");
+                throw new HttpException("Status-Line '" + statusLine
+                        + "' does not start with HTTP");
             }
-            // handle the HTTP-Version
+            //handle the HTTP-Version
             at = statusLine.indexOf(" ", at);
             if (at <= 0) {
                 throw new ProtocolException(
                         "Unable to parse HTTP-Version from the status line: '"
-                        + statusLine + "'");
+                                + statusLine + "'");
             }
             this.httpVersion = (statusLine.substring(start, at)).toUpperCase();
 
-            // advance through spaces
+            //advance through spaces
             while (statusLine.charAt(at) == ' ') {
                 at++;
             }
@@ -119,7 +119,6 @@ public class StatusLine {
                         "Unable to parse status code from status line: '"
                                 + statusLine + "'");
             }
-
             //handle the Reason-Phrase
             at = to + 1;
             if (at < length) {
@@ -134,24 +133,27 @@ public class StatusLine {
         this.statusLine = statusLine;
     }
 
-    /**
-     * @return the HTTP-Version
-     */
-    public String getHttpVersion() {
-        return httpVersion;
-    }
+
+    // --------------------------------------------------------- Public Methods
 
     /**
      * @return the Status-Code
      */
-    public int getStatusCode() {
+    public final int getStatusCode() {
         return statusCode;
+    }
+
+    /**
+     * @return the HTTP-Version
+     */
+    public final String getHttpVersion() {
+        return httpVersion;
     }
 
     /**
      * @return the Reason-Phrase
      */
-    public String getReasonPhrase() {
+    public final String getReasonPhrase() {
         return reasonPhrase;
     }
 
@@ -180,11 +182,5 @@ public class StatusLine {
             return false;
         }
     }
-
-    /**
-     * 1.Character.isWhitespace()认为全角和半角空格都为空格，即返回true
-     * 2.Character.isSpaceChar()认为全角和半角空格都为空格，即返回true
-     * 3.Character.isSpace()只认为半角空格为空格，即半角空格返回true,全角空格返回false,但是此方法不被赞成使用。
-     * 4.trim()时，只能截取掉半角的空格，而不能将全角的空格给去掉。
-     */
 }
+
