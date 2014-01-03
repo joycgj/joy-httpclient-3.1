@@ -48,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @since 3.0
  */
-public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
+public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {  // finish @2014/1/3
 
     /** Log objects for this class. */
     private static final Log LOG = LogFactory.getLog(DefaultHttpParams.class);
