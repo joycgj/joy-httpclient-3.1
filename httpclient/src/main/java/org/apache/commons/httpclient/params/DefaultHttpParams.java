@@ -53,6 +53,7 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
     /** Log objects for this class. */
     private static final Log LOG = LogFactory.getLog(DefaultHttpParams.class);
 
+    /** HttpParams class factory. */
     private static HttpParamsFactory httpParamsFactory = new DefaultHttpParamsFactory();
 
     /**
@@ -81,7 +82,7 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
     }
 
     /** The set of default values to defer to */
-    private HttpParams defaults = null;
+    private HttpParams defaults = null; // Line85
 
     /** Hash map of HTTP parameters that this collection contains */
     private HashMap parameters = null;
@@ -111,19 +112,16 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
     public DefaultHttpParams() {
         this(getDefaultParams());
     }
-
     @Override
     public synchronized HttpParams getDefaults() {
         return this.defaults;
     }
-
     @Override
     public void setDefaults(HttpParams params) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.defaults = params;
     }
-
     @Override
-    public synchronized Object getParameter(final String name) {
+    public synchronized Object getParameter(final String name) { // 124
         // See if the parameter has been explicitly defined
         Object param = null;
         if (this.parameters != null) {
@@ -131,8 +129,8 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
         }
         if (param != null) {
             // If so, return
-
-        } else {return param;
+            return param;
+        } else {
             // If not, see if defaults are available
             if (this.defaults != null) {
                 // Return default parameter value
@@ -142,9 +140,7 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
                 return null;
             }
         }
-
     }
-
     @Override
     public synchronized void setParameter(final String name, final Object value) {
         if (this.parameters == null) {
@@ -167,7 +163,6 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
             setParameter(names[i], value);
         }
     }
-
     @Override
     public long getLongParameter(final String name, long defaultValue) {
         Object param = getParameter(name);
@@ -176,12 +171,10 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
         }
         return ((Long)param).longValue();
     }
-
     @Override
     public void setLongParameter(String name, long value) {
         setParameter(name, new Long(value));
     }
-
     @Override
     public int getIntParameter(String name, int defaultValue) {
         Object param = getParameter(name);
@@ -190,12 +183,10 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
         }
         return ((Integer)param).intValue();
     }
-
     @Override
     public void setIntParameter(String name, int value) {
         setParameter(name, new Integer(value));
     }
-
     @Override
     public double getDoubleParameter(String name, double defaultValue) {
         Object param = getParameter(name);
@@ -204,12 +195,10 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
         }
         return ((Double)param).doubleValue();
     }
-
     @Override
     public void setDoubleParameter(String name, double value) {
         setParameter(name, new Double(value));
     }
-
     @Override
     public boolean getBooleanParameter(String name, boolean defaultValue) {
         Object param = getParameter(name);
@@ -218,27 +207,22 @@ public class DefaultHttpParams implements HttpParams, Serializable, Cloneable {
         }
         return ((Boolean)param).booleanValue();
     }
-
     @Override
     public void setBooleanParameter(String name, boolean value) {
         setParameter(name, value ? Boolean.TRUE : Boolean.FALSE);// Boolean.valueOf() = Java 1.4+
     }
-
     @Override
     public boolean isParameterSet(String name) {
         return getParameter(name) != null;
     }
-
     @Override
     public boolean isParameterSetLocally(String name) {
         return this.parameters != null && this.parameters.get(name) != null;
     }
-
     @Override
     public boolean isParameterTrue(String name) {
         return getBooleanParameter(name, false);
     }
-
     @Override
     public boolean isParameterFalse(String name) {
         return !getBooleanParameter(name, false);
