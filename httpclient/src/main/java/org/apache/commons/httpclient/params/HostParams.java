@@ -43,7 +43,7 @@ package org.apache.commons.httpclient.params;
  *
  * @since 3.0
  */
-public class HostParams extends DefaultHttpParams {
+public class HostParams extends DefaultHttpParams {  // finish @2014/1/3 15:07
 
     /**
      * Defines the request headers to be sent per default with each request.
