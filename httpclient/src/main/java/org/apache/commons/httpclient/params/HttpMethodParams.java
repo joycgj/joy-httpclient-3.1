@@ -1,5 +1,37 @@
+/*
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//httpclient/src/java/org/apache/commons/httpclient/params/HttpMethodParams.java,v 1.17 2004/10/06 17:32:04 olegk Exp $
+ * $Revision: 483949 $
+ * $Date: 2006-12-08 12:34:50 +0100 (Fri, 08 Dec 2006) $
+ *
+ * ====================================================================
+ *
+ *  Licensed to the Apache Software Foundation (ASF) under one or more
+ *  contributor license agreements.  See the NOTICE file distributed with
+ *  this work for additional information regarding copyright ownership.
+ *  The ASF licenses this file to You under the Apache License, Version 2.0
+ *  (the "License"); you may not use this file except in compliance with
+ *  the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Apache Software Foundation.  For more
+ * information on the Apache Software Foundation, please see
+ * <http://www.apache.org/>.
+ *
+ */
+
 package org.apache.commons.httpclient.params;
 
+import org.apache.commons.httpclient.HttpVersion;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -9,8 +41,16 @@ import org.apache.commons.logging.LogFactory;
  * parameters may be linked together to form a hierarchy. If a particular
  * parameter value has not been explicitly defined in the collection itself,
  * its value will be drawn from the parent collection of parameters.
+ *
+ * @author <a href="mailto:oleg@ural.ru">Oleg Kalnichevski</a>
+ * @author Christian Kohlschuetter
+ *
+ * @version $Revision: 483949 $
+ *
+ * @since 3.0
  */
 public class HttpMethodParams extends DefaultHttpParams {
+
     /** Log object for this class. */
     private static final Log LOG = LogFactory.getLog(HttpMethodParams.class);
 
@@ -271,7 +311,7 @@ public class HttpMethodParams extends DefaultHttpParams {
 
     /**
      * Returns the charset to be used for writing HTTP headers.
-     * @return the charset
+     * @return The charset
      */
     public String getHttpElementCharset() {
         String charset = (String) getParameter(HTTP_ELEMENT_CHARSET);
@@ -305,12 +345,11 @@ public class HttpMethodParams extends DefaultHttpParams {
     }
 
     /**
-     * Sets the default charset to be used for writing content body,
-     * when no charset explicitly specified.
+     * Sets the charset to be used for parsing URIs.
      * @param charset The charset
      */
-    public void setContentCharset(String charset) {
-        setParameter(HTTP_CONTENT_CHARSET, charset);
+    public void setUriCharset(String charset) {
+        setParameter(HTTP_URI_CHARSET, charset);
     }
 
     /**
@@ -326,11 +365,12 @@ public class HttpMethodParams extends DefaultHttpParams {
     }
 
     /**
-     * Sets the charset to be used for parsing URIs.
+     * Sets the default charset to be used for writing content body,
+     * when no charset explicitly specified.
      * @param charset The charset
      */
-    public void setUriCharset(String charset) {
-        setParameter(HTTP_URI_CHARSET, charset);
+    public void setContentCharset(String charset) {
+        setParameter(HTTP_CONTENT_CHARSET, charset);
     }
 
     /**
@@ -380,6 +420,7 @@ public class HttpMethodParams extends DefaultHttpParams {
     public void setVersion(HttpVersion version) {
         setParameter(PROTOCOL_VERSION, version);
     }
+
 
     /**
      * Returns {@link CookiePolicy cookie policy} to be used by the
@@ -477,4 +518,6 @@ public class HttpMethodParams extends DefaultHttpParams {
         setParameters(PROTOCOL_STRICTNESS_PARAMETERS, Boolean.FALSE);
         setIntParameter(STATUS_LINE_GARBAGE_LIMIT, Integer.MAX_VALUE);
     }
+
 }
+
