@@ -47,7 +47,7 @@ import java.net.InetAddress;
  *
  * @since 2.0
  */
-public class HostConfiguration implements Cloneable {
+public class HostConfiguration implements Cloneable { // finish @2014/1/4 22:08
 
     /**
      * A value to represent any host configuration, instead of using something like
