@@ -43,7 +43,7 @@ package org.apache.commons.httpclient.params;
  *
  * @since 3.0
  */
-public class HttpConnectionParams extends DefaultHttpParams {
+public class HttpConnectionParams extends DefaultHttpParams { // finish @2014/1/3 15:19
 
     /**
      * Defines the default socket timeout (<tt>SO_TIMEOUT</tt>) in milliseconds which is the
