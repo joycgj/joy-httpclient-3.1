@@ -154,8 +154,8 @@ public class HttpConnectionManagerParams extends HttpConnectionParams { // finis
             } else {
                 return (
                         max == null
-                                ? MultiThreadedHttpConnectionManager.DEFAULT_MAX_HOST_CONNECTIONS
-                                : max.intValue()
+                        ? MultiThreadedHttpConnectionManager.DEFAULT_MAX_HOST_CONNECTIONS
+                        : max.intValue()
                 );
             }
         }
